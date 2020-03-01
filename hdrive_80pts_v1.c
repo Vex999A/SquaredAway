@@ -14,7 +14,7 @@
 
 //define global variable
 int turning;
-int threshold = 200; //white ~ 500; black ~ 50 (gray scale)
+//const int threshold = 200; //white ~ 500; black ~ 50 (gray scale)
 
 //============================================| TASK LowGreenCube |============================================
 task LowGreenCube()
