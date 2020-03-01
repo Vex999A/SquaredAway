@@ -62,18 +62,6 @@ task LowGreenCube()
 		{
 			setMotorSpeed(Left, 40);
 			setMotorSpeed(Right, 40);
-			//if(getColorValue(colorSensor) < threshold) //detect black
-			//{
-			//	// counter-steer left:
-			//	setMotorSpeed(Left, 70);
-			//	setMotorSpeed(Right, 85);
-			//}
-			//else
-			//{
-			//	// counter-steer right:
-			//	setMotorSpeed(Left, 85);
-			//	setMotorSpeed(Right, 70);
-			//}
 		}
 		setMotorSpeed(Left, 0);
 		setMotorSpeed(Right, 0);
@@ -97,22 +85,18 @@ task LowGreenCube()
 }
 //============================================| TASK LowGreenCube |============================================
 
-//============================================| TASK HighGreenCube |============================================
+//============================================| TASK HighGreenCube |===========================================
 task HighGreenCube()
 {
 	while(true)
 	{
 		/*Touch LED sensor to start the autonuous program*/
 		waitUntil(getTouchLEDValue(leftLED) == 1);
+
+		resetGyro(gyroSensor);
 		setTouchLEDColor(leftLED, colorNone);
 		setMotorTarget(Arm, -400, 80); //lower the arm
 
-/*		//raise ballcatcher
-		resetMotorEncoder(BallCatcher);
-		setMotorTarget(BallCatcher, 50, 80);
-		waitUntilMotorStop(BallCatcher);
-		wait1Msec(10);
-*/
 		//turn left
 		resetGyro(gyroSensor);
 		while(getGyroDegrees(gyroSensor) < 75)
@@ -176,7 +160,7 @@ task HighGreenCube()
 		//turn left again
 		resetGyro(gyroSensor);
 		turning = getGyroDegrees(gyroSensor);
-		while(getGyroDegrees(gyroSensor) < 60)
+		while(getGyroDegrees(gyroSensor) < 70)
 		{
 			setMotorSpeed(Left, -50+turning/2);
 			setMotorSpeed(Right, +50-turning/2);
@@ -188,15 +172,15 @@ task HighGreenCube()
 		//forward
 		resetMotorEncoder(Left);
 		resetMotorEncoder(Right);
-		setMotorTarget(Left, 145, 30);
-		setMotorTarget(Right, 145, 30);
+		setMotorTarget(Left, 155, 30);
+		setMotorTarget(Right, 155, 30);
 		waitUntilMotorStop(Left);
 		waitUntilMotorStop(Right);
 		wait1Msec(10);
 
 		//shift into position
 		resetMotorEncoder(Shift);
-		setMotorTarget(Shift, -330, 50);
+		setMotorTarget(Shift, -260, 50);
 		waitUntilMotorStop(Shift);
 		wait1Msec(10);
 
@@ -215,19 +199,13 @@ task HighGreenCube()
 		waitUntilMotorStop(Right);
 		wait1Msec(10);
 
-		//lower ballcatcher
-//		resetMotorEncoder(BallCatcher);
-//		setMotorTarget(BallCatcher, -50, 80);
-//		waitUntilMotorStop(BallCatcher);
-//		wait1Msec(10);
 	}
 }
-//============================================| TASK HighGreenCube |=============================================
+//============================================| TASK HighGreenCube |============================================
 
+//============================================| TASK RedBlueCube |==============================================
 
-//=============================| TASK Red & Blue Cubes|================================================
-
-task redblue()
+task RedBlueCube()
 {
 		while(true)
 	{
@@ -235,11 +213,11 @@ task redblue()
 		/*******************Turn left pick up red***********************/
 		waitUntil(getTouchLEDValue(thirdLED) == 1);
 
+		resetGyro(gyroSensor);
 		setMotorTarget(Arm, -400, 80); //lower the arm
 
 		//turn left
 		resetGyro(gyroSensor);
-
 		while(getGyroDegrees(gyroSensor) <90)
 		{
 			turning = 95-getGyroDegrees(gyroSensor);
@@ -361,7 +339,7 @@ task redblue()
 
 	}
 }
-
+//============================================| TASK RedBlueCube |==============================================
 
 task main()
 {
@@ -396,7 +374,7 @@ task main()
 	/*autonomous program starts here*/
 	startTask(LowGreenCube);   // start task LowGreenCube
 	startTask(HighGreenCube);  // start task HighGreenCube
-	startTask(redblue);
+	startTask(RedBlueCube); 	// start task RedBlueCube
 
 	while(true)
 	{
